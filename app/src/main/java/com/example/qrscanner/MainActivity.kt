@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
        private fun startScan() {
         val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+        integrator.setDesiredBarcodeFormats("QR_CODE")
         integrator.setPrompt("Itapat ang camera sa QR code")
         integrator.setBeepEnabled(true)
         integrator.setOrientationLocked(true)
