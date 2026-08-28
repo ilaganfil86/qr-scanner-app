@@ -55,19 +55,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startScan() {
-        val options = ScanOptions()
-        options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-        options.setPrompt("Itapat ang camera sa QR code")
-        options.setBeepEnabled(true)
-        options.setOrientationLocked(true)
-        options.setCaptureActivity(com.journeyapps.barcodescanner.CaptureActivity::class.java)
-
+       private fun startScan() {
         val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(options.desiredBarcodeFormats)
-        integrator.setPrompt(options.prompt)
-        integrator.setBeepEnabled(options.isBeepEnabled)
-        integrator.setOrientationLocked(options.isOrientationLocked)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+        integrator.setPrompt("Itapat ang camera sa QR code")
+        integrator.setBeepEnabled(true)
+        integrator.setOrientationLocked(true)
         integrator.initiateScan()
     }
 
