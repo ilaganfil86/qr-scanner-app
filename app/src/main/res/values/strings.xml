@@ -11,4 +11,5 @@
     <string name="open_button">Open</string>
     <string name="share_button">Share</string>
     <string name="copy_button">Copy</string>
+    <string name="developer_credit">Developed by Fil Ilagan</string>
 </resources>
