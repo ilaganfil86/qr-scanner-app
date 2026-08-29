@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,36 +17,56 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var resultCard: LinearLayout
+    private lateinit var typeText: TextView
+    private lateinit var timestampText: TextView
     private lateinit var resultText: TextView
-    private lateinit var openLinkButton: Button
+    private lateinit var openButton: Button
+    private lateinit var shareButton: Button
+    private lateinit var copyButton: Button
+
     private val cameraPermissionRequestCode = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        resultCard = findViewById(R.id.resultCard)
+        typeText = findViewById(R.id.typeText)
+        timestampText = findViewById(R.id.timestampText)
         resultText = findViewById(R.id.resultText)
-        openLinkButton = findViewById(R.id.openLinkButton)
+        openButton = findViewById(R.id.openButton)
+        shareButton = findViewById(R.id.shareButton)
+        copyButton = findViewById(R.id.copyButton)
         val scanButton = findViewById<Button>(R.id.scanButton)
 
-        resultText.setOnClickListener {
+        openButton.setOnClickListener {
             val text = resultText.text.toString()
-            if (text.isNotBlank() && text != getString(R.string.no_result_yet)) {
-                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.setPrimaryClip(ClipData.newPlainText("QR Result", text))
-                Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+            if (isUrl(text)) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(text)))
             }
         }
 
-        openLinkButton.setOnClickListener {
+        shareButton.setOnClickListener {
             val text = resultText.text.toString()
-            if (isUrl(text)) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(text))
-                startActivity(intent)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, text)
             }
+            startActivity(Intent.createChooser(shareIntent, "Share"))
+        }
+
+        copyButton.setOnClickListener {
+            val text = resultText.text.toString()
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(ClipData.newPlainText("QR Result", text))
+            Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
         }
 
         scanButton.setOnClickListener {
@@ -88,12 +109,13 @@ class MainActivity : AppCompatActivity() {
             if (result.contents == null) {
                 Toast.makeText(this, R.string.scan_cancelled, Toast.LENGTH_SHORT).show()
             } else {
-                resultText.text = result.contents
-                if (isUrl(result.contents)) {
-                    openLinkButton.visibility = android.view.View.VISIBLE
-                } else {
-                    openLinkButton.visibility = android.view.View.GONE
-                }
+                val content = result.contents
+                resultText.text = content
+                typeText.text = if (isUrl(content)) getString(R.string.type_url) else getString(R.string.type_text)
+                val sdf = SimpleDateFormat("MMM dd, yyyy h:mm a", Locale.getDefault())
+                timestampText.text = sdf.format(Date())
+                openButton.visibility = if (isUrl(content)) android.view.View.VISIBLE else android.view.View.GONE
+                resultCard.visibility = android.view.View.VISIBLE
             }
         }
     }
