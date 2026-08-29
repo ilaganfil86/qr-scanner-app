@@ -106,4 +106,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="48dp" />
 
+    <TextView
+        android:id="@+id/creditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/developer_credit"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="12dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
