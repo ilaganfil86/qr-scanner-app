@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">QR Scanner</string>
     <string name="app_title">QR Code Scanner</string>
-    <string name="scan_button">I-scan ang QR Code</string>
-    <string name="no_result_yet">Wala pang na-scan.</string>
-    <string name="camera_permission_needed">Kailangan ng camera permission para gumana ang scanner.</string>
-    <string name="scan_cancelled">Kinansela ang pag-scan.</string>
-    <string name="copied_to_clipboard">Nakopya sa clipboard.</string>
+    <string name="scan_button">SCAN QR CODE</string>
+    <string name="no_result_yet">No scan yet.</string>
+    <string name="camera_permission_needed">Camera permission is needed for the scanner to work.</string>
+    <string name="scan_cancelled">Scan cancelled.</string>
+    <string name="copied_to_clipboard">Copied to clipboard.</string>
     <string name="type_url">URL</string>
     <string name="type_text">TEXT</string>
     <string name="open_button">Open</string>
